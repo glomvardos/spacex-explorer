@@ -2,20 +2,21 @@
 
 import { useMemo } from 'react';
 
-import { LaunchRow } from '@/components/launches/launch-row';
-import { LaunchesListFooter } from '@/components/launches/launches-list-footer';
-import { LaunchesSkeleton } from '@/components/launches/launches-skeleton';
-import {
-  LaunchesEmptyState,
-  LaunchesErrorState,
-} from '@/components/launches/launches-state';
+import { LaunchesFilters } from '@/components/launches/launches-filters';
+import { LaunchesListContent } from '@/components/launches/launches-list-content';
 
 import { useInfiniteLaunchesQuery } from '@/lib/hooks/use-infinite-launches-query';
 import { useLoadNextPageOnView } from '@/lib/hooks/use-load-next-page-on-view';
+import type { LaunchesFiltersFormState } from '@/lib/types/launch-filters';
+import type { LaunchesQueryParams } from '@/lib/types/launches';
+import { createLaunchesUrl } from '@/lib/utils/launches-search-params';
 
-const LAUNCHES_PAGE_SIZE = 20;
+type LaunchesListProps = {
+  filters: LaunchesFiltersFormState;
+  params: LaunchesQueryParams;
+};
 
-export function LaunchesList() {
+export function LaunchesList({ filters, params }: LaunchesListProps) {
   const {
     data,
     error,
@@ -26,7 +27,7 @@ export function LaunchesList() {
     isFetchingNextPage,
     isPending,
     refetch,
-  } = useInfiniteLaunchesQuery({ limit: LAUNCHES_PAGE_SIZE });
+  } = useInfiniteLaunchesQuery(params);
   const loadMoreRef = useLoadNextPageOnView({
     fetchNextPage,
     hasNextPage,
@@ -38,39 +39,22 @@ export function LaunchesList() {
     [data],
   );
   const totalLaunches = data?.pages[0]?.totalDocs ?? 0;
-
-  if (isPending) {
-    return <LaunchesSkeleton />;
-  }
-
-  if (isError) {
-    return (
-      <LaunchesErrorState
-        isRetrying={isFetching}
-        message={error.message}
-        onRetry={() => void refetch()}
-      />
-    );
-  }
-
-  if (launches.length === 0) {
-    return <LaunchesEmptyState />;
-  }
+  const filtersUrl = createLaunchesUrl(filters);
 
   return (
-    <div className="space-y-4">
-      <ul className="bg-card overflow-hidden rounded-md border">
-        {launches.map((launch) => (
-          <LaunchRow key={launch.id} launch={launch} />
-        ))}
-      </ul>
-
-      <LaunchesListFooter
+    <div className="flex flex-col gap-4">
+      <LaunchesFilters key={filtersUrl} filters={filters} />
+      <LaunchesListContent
+        errorMessage={error?.message ?? null}
         hasNextPage={hasNextPage}
+        isError={isError}
         isFetchingNextPage={isFetchingNextPage}
+        isPending={isPending}
+        isRetrying={isFetching}
+        launches={launches}
         loadMoreRef={loadMoreRef}
-        loadedCount={launches.length}
-        totalCount={totalLaunches}
+        onRetry={() => void refetch()}
+        totalLaunches={totalLaunches}
       />
     </div>
   );

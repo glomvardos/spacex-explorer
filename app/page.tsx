@@ -1,8 +1,22 @@
-import { LaunchesList } from '@/components/launches/launches-list';
+import { Suspense } from 'react';
+
+import { HydratedLaunchesList } from '@/components/launches/hydrated-launches-list';
+import { LaunchesSkeleton } from '@/components/launches/launches-skeleton';
 import { PageHeader } from '@/components/ui/page-header';
 import { PageSection } from '@/components/ui/page-section';
 
-export default function Home() {
+import {
+  type PageSearchParams,
+  parseLaunchesSearchParams,
+} from '@/lib/utils/launches-search-params';
+
+type HomeProps = {
+  searchParams: Promise<PageSearchParams>;
+};
+
+export default async function Home({ searchParams }: HomeProps) {
+  const filters = parseLaunchesSearchParams(await searchParams);
+
   return (
     <main className="flex-1">
       <PageSection labelledBy="launches-heading">
@@ -12,7 +26,9 @@ export default function Home() {
           titleId="launches-heading"
         />
 
-        <LaunchesList />
+        <Suspense fallback={<LaunchesSkeleton />}>
+          <HydratedLaunchesList filters={filters} />
+        </Suspense>
       </PageSection>
     </main>
   );
