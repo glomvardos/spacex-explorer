@@ -18,7 +18,8 @@ type LaunchStatus = {
 function getLaunchStatus(launch: SpaceXLaunch): LaunchStatus {
   if (launch.upcoming) {
     return {
-      className: 'border-sky-200 bg-sky-500/10 text-sky-700',
+      className:
+        'border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-900 dark:bg-sky-950 dark:text-sky-300',
       icon: Clock3,
       label: 'Upcoming',
     };
@@ -26,7 +27,8 @@ function getLaunchStatus(launch: SpaceXLaunch): LaunchStatus {
 
   if (launch.success === true) {
     return {
-      className: 'border-emerald-200 bg-emerald-500/10 text-emerald-700',
+      className:
+        'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300',
       icon: CheckCircle2,
       label: 'Successful',
     };
@@ -34,7 +36,8 @@ function getLaunchStatus(launch: SpaceXLaunch): LaunchStatus {
 
   if (launch.success === false) {
     return {
-      className: 'border-red-200 bg-red-500/10 text-red-700',
+      className:
+        'border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300',
       icon: XCircle,
       label: 'Failed',
     };
@@ -54,7 +57,7 @@ export function LaunchStatusBadge({ launch }: { launch: SpaceXLaunch }) {
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium',
+        'inline-flex items-center gap-1.5 justify-self-start rounded-md border px-2.5 py-1 text-xs font-medium',
         status.className,
       )}
     >
