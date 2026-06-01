@@ -28,6 +28,7 @@ export function useLaunchesFilters({
   const canReset =
     !hasDefaultLaunchesFilters(filters) ||
     !hasDefaultLaunchesFilters(initialFilters);
+  const hasActiveFilters = !hasDefaultLaunchesFilters(initialFilters);
 
   function applyFilters() {
     if (!canApply) {
@@ -61,6 +62,7 @@ export function useLaunchesFilters({
     canApply,
     canReset,
     filters,
+    hasActiveFilters,
     isApplying,
     isOpen,
     resetFilters,

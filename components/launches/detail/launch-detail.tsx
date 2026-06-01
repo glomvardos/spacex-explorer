@@ -21,6 +21,7 @@ import { LaunchDetailLaunchpad } from '@/components/launches/detail/launch-detai
 import { LaunchDetailPayloadsSection } from '@/components/launches/detail/launch-detail-payloads-section';
 import { LaunchDetailRocket } from '@/components/launches/detail/launch-detail-rocket';
 import { LaunchDetailSectionSkeleton } from '@/components/launches/detail/launch-detail-section';
+import { FavoriteButton } from '@/components/launches/favorite-button';
 import { LaunchStatusBadge } from '@/components/launches/launch-status-badge';
 import { Button } from '@/components/ui/button';
 
@@ -90,7 +91,14 @@ export function LaunchDetail({ launch }: LaunchDetailProps) {
         aria-labelledby="launch-detail-heading"
       >
         <div className="min-w-0">
-          <LaunchStatusBadge launch={launch} />
+          <div className="flex items-center justify-between gap-3">
+            <LaunchStatusBadge launch={launch} />
+            <FavoriteButton
+              launchId={launch.id}
+              launchName={launch.name}
+              showLabel
+            />
+          </div>
           <h1
             id="launch-detail-heading"
             className="mt-4 text-3xl font-semibold sm:text-4xl"

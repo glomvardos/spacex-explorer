@@ -1,4 +1,4 @@
-import { ListFilter } from 'lucide-react';
+import { FilterX, ListFilter } from 'lucide-react';
 
 import { LaunchesFiltersForm } from '@/components/launches/list/launches-filters-form';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ type LaunchesFiltersDrawerProps = {
   canApply: boolean;
   canReset: boolean;
   filters: LaunchesFiltersFormState;
+  hasActiveFilters: boolean;
   isApplying: boolean;
   isOpen: boolean;
   resetFilters: () => void;
@@ -29,6 +30,7 @@ export function LaunchesFiltersDrawer({
   canApply,
   canReset,
   filters,
+  hasActiveFilters,
   isApplying,
   isOpen,
   resetFilters,
@@ -37,7 +39,13 @@ export function LaunchesFiltersDrawer({
 }: LaunchesFiltersDrawerProps) {
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        {hasActiveFilters ? (
+          <Button type="button" variant="ghost" onClick={resetFilters}>
+            <FilterX aria-hidden="true" data-icon="inline-start" />
+            Clear filters
+          </Button>
+        ) : null}
         <SheetTrigger asChild>
           <Button type="button" variant="outline">
             <ListFilter aria-hidden="true" data-icon="inline-start" />

@@ -17,6 +17,7 @@ export function LaunchesFilters({ filters }: LaunchesFiltersProps) {
       canApply={launchesFilters.canApply}
       canReset={launchesFilters.canReset}
       filters={launchesFilters.filters}
+      hasActiveFilters={launchesFilters.hasActiveFilters}
       isOpen={launchesFilters.isOpen}
       isApplying={launchesFilters.isApplying}
       applyFilters={launchesFilters.applyFilters}
