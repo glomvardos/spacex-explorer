@@ -1,14 +1,15 @@
 import type { RefCallback } from 'react';
 
-import { LaunchRow } from '@/components/launches/launch-row';
-import { LaunchesListFooter } from '@/components/launches/launches-list-footer';
-import { LaunchesSkeleton } from '@/components/launches/launches-skeleton';
+import { LaunchRow } from '@/components/launches/list/launch-row';
+import { LaunchesListFooter } from '@/components/launches/list/launches-list-footer';
+import { LaunchesSkeleton } from '@/components/launches/list/launches-skeleton';
 import {
   LaunchesEmptyState,
   LaunchesErrorState,
-} from '@/components/launches/launches-state';
+} from '@/components/launches/list/launches-state';
 
 import type { SpaceXLaunch } from '@/lib/types/launches';
+import { createLaunchDetailUrl } from '@/lib/utils/launch-routes';
 
 type LaunchesListContentProps = {
   errorMessage: string | null;
@@ -57,7 +58,11 @@ export function LaunchesListContent({
     <>
       <ul className="bg-card overflow-hidden rounded-md border">
         {launches.map((launch) => (
-          <LaunchRow key={launch.id} launch={launch} />
+          <LaunchRow
+            key={launch.id}
+            href={createLaunchDetailUrl(launch.id)}
+            launch={launch}
+          />
         ))}
       </ul>
 

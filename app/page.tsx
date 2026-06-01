@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
-import { HydratedLaunchesList } from '@/components/launches/hydrated-launches-list';
-import { LaunchesSkeleton } from '@/components/launches/launches-skeleton';
+import { HydratedLaunchesList } from '@/components/launches/list/hydrated-launches-list';
+import { LaunchesSkeleton } from '@/components/launches/list/launches-skeleton';
 import { PageHeader } from '@/components/ui/page-header';
 import { PageSection } from '@/components/ui/page-section';
 

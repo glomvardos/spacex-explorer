@@ -32,7 +32,7 @@ export function LaunchesListFooter({
           {isFetchingNextPage ? (
             <>
               <Loader2 className="animate-spin" aria-hidden="true" />
-              Loading more launches
+              Loading
             </>
           ) : (
             <span className="sr-only">Scroll for more launches</span>

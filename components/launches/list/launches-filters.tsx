@@ -1,4 +1,4 @@
-import { LaunchesFiltersDrawer } from '@/components/launches/launches-filters-drawer';
+import { LaunchesFiltersDrawer } from '@/components/launches/list/launches-filters-drawer';
 
 import { useLaunchesFilters } from '@/lib/hooks/use-launches-filters';
 import type { LaunchesFiltersFormState } from '@/lib/types/launch-filters';

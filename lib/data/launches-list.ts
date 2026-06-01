@@ -8,20 +8,16 @@ import type {
   LaunchesQueryResponse,
   SortDirection,
 } from '@/lib/types/launches';
+import { escapeRegExp } from '@/lib/utils/escape-reg-exp';
 
 const DEFAULT_LAUNCHES_LIMIT = 20;
 const DEFAULT_SORT_DIRECTION: SortDirection = 'desc';
 const DEFAULT_SORT_FIELD: LaunchSortField = 'date_utc';
-const regexSpecialCharacters = /[.*+?^${}()|[\]\\]/g;
 
 type FetchLaunchesPageInput = {
   page: number;
   params?: LaunchesQueryParams;
 };
-
-function escapeRegExp(value: string) {
-  return value.replace(regexSpecialCharacters, '\\$&');
-}
 
 function createLaunchesQuery(params: LaunchesQueryParams) {
   const query: LaunchesQuery = {};

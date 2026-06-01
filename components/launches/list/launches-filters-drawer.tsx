@@ -1,6 +1,6 @@
 import { ListFilter } from 'lucide-react';
 
-import { LaunchesFiltersForm } from '@/components/launches/launches-filters-form';
+import { LaunchesFiltersForm } from '@/components/launches/list/launches-filters-form';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,

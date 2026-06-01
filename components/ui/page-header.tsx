@@ -1,5 +1,4 @@
 import type { PropsWithClassName } from '@/lib/types/props';
-import { cn } from '@/lib/utils/cn';
 
 type PageHeaderProps = PropsWithClassName<{
   description: string;
@@ -14,7 +13,7 @@ export function PageHeader({
   titleId,
 }: PageHeaderProps) {
   return (
-    <div className={cn('border-b pb-5', className)}>
+    <div className={className}>
       <div className="max-w-3xl">
         <h1 id={titleId} className="text-3xl font-semibold sm:text-4xl">
           {title}

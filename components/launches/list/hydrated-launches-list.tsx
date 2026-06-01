@@ -4,10 +4,10 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 
-import { LaunchesList } from '@/components/launches/launches-list';
+import { LaunchesList } from '@/components/launches/list/launches-list';
 
 import { DEFAULT_PAGE_SIZE } from '@/lib/constants/pagination';
-import { infiniteLaunchesQueryOptions } from '@/lib/data/launches-query-options';
+import { infiniteLaunchesQueryOptions } from '@/lib/queries/launches-query-options';
 import type { LaunchesFiltersFormState } from '@/lib/types/launch-filters';
 import { createLaunchesQueryParams } from '@/lib/utils/create-launches-query-params';
 

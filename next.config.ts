@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         hostname: 'images2.imgbox.com',
         protocol: 'https',
       },
+      {
+        hostname: '*.staticflickr.com',
+        protocol: 'https',
+      },
     ],
   },
 };

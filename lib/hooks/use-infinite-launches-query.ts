@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { infiniteLaunchesQueryOptions } from '@/lib/data/launches-query-options';
+import { infiniteLaunchesQueryOptions } from '@/lib/queries/launches-query-options';
 import type { LaunchesQueryParams } from '@/lib/types/launches';
 
 export function useInfiniteLaunchesQuery(params: LaunchesQueryParams = {}) {

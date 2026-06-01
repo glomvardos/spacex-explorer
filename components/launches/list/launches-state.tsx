@@ -10,9 +10,6 @@ export function LaunchesEmptyState() {
         aria-hidden="true"
       />
       <h2 className="mt-4 text-lg font-semibold">No launches found</h2>
-      <p className="text-muted-foreground mx-auto mt-2 max-w-md text-sm leading-6">
-        SpaceX did not return any launches for the current view.
-      </p>
     </div>
   );
 }

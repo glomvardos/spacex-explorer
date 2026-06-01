@@ -2,7 +2,7 @@ import { type InfiniteData, infiniteQueryOptions } from '@tanstack/react-query';
 
 import { FIRST_PAGE } from '@/lib/constants/pagination';
 import { queryKeys } from '@/lib/constants/query-keys';
-import { fetchLaunchesPage } from '@/lib/data/launches';
+import { fetchLaunchesPage } from '@/lib/data/launches-list';
 import type { ApiError } from '@/lib/types/api';
 import type {
   LaunchesQueryParams,

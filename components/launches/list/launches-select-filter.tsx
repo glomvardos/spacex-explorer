@@ -1,4 +1,4 @@
-import { LaunchesFilterField } from '@/components/launches/launches-filter-field';
+import { LaunchesFilterField } from '@/components/launches/list/launches-filter-field';
 import {
   Select,
   SelectContent,

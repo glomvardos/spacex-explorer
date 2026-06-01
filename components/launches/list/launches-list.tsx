@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 
-import { LaunchesFilters } from '@/components/launches/launches-filters';
-import { LaunchesListContent } from '@/components/launches/launches-list-content';
+import { LaunchesFilters } from '@/components/launches/list/launches-filters';
+import { LaunchesListContent } from '@/components/launches/list/launches-list-content';
 
 import { useInfiniteLaunchesQuery } from '@/lib/hooks/use-infinite-launches-query';
 import { useLoadNextPageOnView } from '@/lib/hooks/use-load-next-page-on-view';

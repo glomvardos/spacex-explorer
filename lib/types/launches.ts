@@ -24,15 +24,84 @@ export type SpaceXLaunch = {
   upcoming: boolean;
   success: boolean | null;
   details: string | null;
+  rocket: string;
+  launchpad: string;
+  payloads: string[];
+  cores: SpaceXLaunchCore[];
   links: {
     article: string | null;
+    flickr: {
+      original: string[];
+      small: string[];
+    };
     patch: {
       small: string | null;
       large: string | null;
     };
+    presskit: string | null;
     webcast: string | null;
     wikipedia: string | null;
+    youtube_id: string | null;
   };
+};
+
+export type SpaceXLaunchCore = {
+  core: string | null;
+  flight: number | null;
+  gridfins: boolean | null;
+  landing_attempt: boolean | null;
+  landing_success: boolean | null;
+  landing_type: string | null;
+  landpad: string | null;
+  legs: boolean | null;
+  reused: boolean | null;
+};
+
+export type SpaceXRocket = {
+  id: string;
+  name: string;
+  active: boolean;
+  company: string;
+  country: string;
+  description: string;
+  first_flight: string;
+  success_rate_pct: number;
+};
+
+export type SpaceXLaunchpad = {
+  id: string;
+  name: string;
+  full_name: string;
+  locality: string;
+  region: string;
+  status: string;
+  details: string | null;
+  launch_attempts: number;
+  launch_successes: number;
+};
+
+export type SpaceXPayload = {
+  id: string;
+  name: string;
+  type: string;
+  customers: string[];
+  manufacturers: string[];
+  mass_kg: number | null;
+  nationalities: string[];
+  orbit: string | null;
+};
+
+export type SpaceXCore = {
+  id: string;
+  block: number | null;
+  reuse_count: number;
+  serial: string;
+  status: string;
+};
+
+export type LaunchCoreDetail = {
+  core: SpaceXCore | null;
+  launchCore: SpaceXLaunchCore;
 };
 
 export type SpaceXQueryResponse<TDoc> = {
