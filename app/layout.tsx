@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 
+import { ReactQueryProvider } from '@/app/react-query-provider';
 import { cn } from '@/lib/utils/cn';
 
 import './globals.css';
@@ -22,7 +23,9 @@ export default function RootLayout({
       lang="en"
       className={cn('h-full', 'antialiased', 'font-sans', notoSans.variable)}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
