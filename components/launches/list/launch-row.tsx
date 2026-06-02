@@ -6,12 +6,12 @@ import { FavoriteButton } from '@/components/launches/favorite-button';
 import { LaunchStatusBadge } from '@/components/launches/launch-status-badge';
 import { LaunchPatch } from '@/components/launches/list/launch-patch';
 
-import type { SpaceXLaunch } from '@/lib/types/launches';
+import type { LaunchListItem } from '@/lib/types/launches';
 import { formatLaunchDate } from '@/lib/utils/format-launch-date';
 
 type LaunchRowProps = {
   href: string;
-  launch: SpaceXLaunch;
+  launch: LaunchListItem;
 };
 
 export function LaunchRow({ href, launch }: LaunchRowProps) {

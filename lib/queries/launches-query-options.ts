@@ -5,8 +5,8 @@ import { queryKeys } from '@/lib/constants/query-keys';
 import { fetchLaunchesPage } from '@/lib/data/launches-list';
 import type { ApiError } from '@/lib/types/api';
 import type {
+  LaunchListResponse,
   LaunchesQueryParams,
-  LaunchesQueryResponse,
 } from '@/lib/types/launches';
 
 const LAUNCHES_STALE_TIME = 60 * 1000;
@@ -17,7 +17,7 @@ type InfiniteLaunchesQueryKey = [
   LaunchesQueryParams,
 ];
 
-function getNextLaunchesPage(lastPage: LaunchesQueryResponse) {
+function getNextLaunchesPage(lastPage: LaunchListResponse) {
   if (!lastPage.hasNextPage) {
     return null;
   }
@@ -35,9 +35,9 @@ function getLaunchesPageParam(pageParam: unknown) {
 
 export function infiniteLaunchesQueryOptions(params: LaunchesQueryParams = {}) {
   return infiniteQueryOptions<
-    LaunchesQueryResponse,
+    LaunchListResponse,
     ApiError,
-    InfiniteData<LaunchesQueryResponse, number>,
+    InfiniteData<LaunchListResponse, number>,
     InfiniteLaunchesQueryKey,
     number
   >({

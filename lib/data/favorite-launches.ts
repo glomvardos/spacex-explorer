@@ -1,10 +1,20 @@
 import { queryData } from '@/lib/api/query-data';
 import { endpoints } from '@/lib/constants/endpoints';
-import type { LaunchesQueryResponse, SpaceXLaunch } from '@/lib/types/launches';
+import type { LaunchListItem, LaunchListResponse } from '@/lib/types/launches';
+
+const FAVORITE_LAUNCHES_SELECT = [
+  'name',
+  'date_utc',
+  'upcoming',
+  'success',
+  'details',
+  'links.patch',
+];
 
 type FavoriteLaunchesQueryRequest = {
   options: {
     pagination: false;
+    select: string[];
   };
   query: {
     _id: {
@@ -14,9 +24,9 @@ type FavoriteLaunchesQueryRequest = {
 };
 
 function sortByFavoriteOrder(
-  launches: SpaceXLaunch[],
+  launches: LaunchListItem[],
   ids: readonly string[],
-): SpaceXLaunch[] {
+): LaunchListItem[] {
   const orderById = new Map(ids.map((id, index) => [id, index]));
 
   return launches.sort(
@@ -27,7 +37,7 @@ function sortByFavoriteOrder(
 
 export async function fetchLaunchesByIds(
   ids: readonly string[],
-): Promise<SpaceXLaunch[]> {
+): Promise<LaunchListItem[]> {
   if (ids.length === 0) {
     return [];
   }
@@ -35,6 +45,7 @@ export async function fetchLaunchesByIds(
   const body: FavoriteLaunchesQueryRequest = {
     options: {
       pagination: false,
+      select: FAVORITE_LAUNCHES_SELECT,
     },
     query: {
       _id: {
@@ -43,7 +54,7 @@ export async function fetchLaunchesByIds(
     },
   };
 
-  const response = await queryData<LaunchesQueryResponse>(
+  const response = await queryData<LaunchListResponse>(
     endpoints.launchesQuery,
     {
       body: JSON.stringify(body),

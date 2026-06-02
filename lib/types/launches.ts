@@ -117,7 +117,16 @@ export type SpaceXQueryResponse<TDoc> = {
   totalPages: number;
 };
 
-export type LaunchesQueryResponse = SpaceXQueryResponse<SpaceXLaunch>;
+export type LaunchListItem = Pick<
+  SpaceXLaunch,
+  'id' | 'name' | 'date_utc' | 'details' | 'success' | 'upcoming'
+> & {
+  links: {
+    patch: SpaceXLaunch['links']['patch'];
+  };
+};
+
+export type LaunchListResponse = SpaceXQueryResponse<LaunchListItem>;
 
 export type LaunchesQuery = {
   date_utc?: {
@@ -136,6 +145,7 @@ export type LaunchesQueryRequest = {
   options: {
     limit: number;
     page: number;
+    select: string[];
     sort: Partial<Record<LaunchSortField, SortDirection>>;
   };
   query: LaunchesQuery;

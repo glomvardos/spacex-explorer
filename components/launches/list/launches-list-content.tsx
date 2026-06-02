@@ -8,7 +8,7 @@ import {
   LaunchesErrorState,
 } from '@/components/launches/list/launches-state';
 
-import type { SpaceXLaunch } from '@/lib/types/launches';
+import type { LaunchListItem } from '@/lib/types/launches';
 import { createLaunchDetailUrl } from '@/lib/utils/launch-routes';
 
 type LaunchesListContentProps = {
@@ -18,7 +18,7 @@ type LaunchesListContentProps = {
   isFetchingNextPage: boolean;
   isPending: boolean;
   isRetrying: boolean;
-  launches: SpaceXLaunch[];
+  launches: LaunchListItem[];
   loadMoreRef: RefCallback<HTMLDivElement>;
   onRetry: () => void;
   totalLaunches: number;

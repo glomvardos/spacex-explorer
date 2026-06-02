@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/constants/query-keys';
 import { fetchLaunchesByIds } from '@/lib/data/favorite-launches';
 import type { ApiError } from '@/lib/types/api';
-import type { SpaceXLaunch } from '@/lib/types/launches';
+import type { LaunchListItem } from '@/lib/types/launches';
 
 const FAVORITE_LAUNCHES_STALE_TIME = 60 * 1000;
 
@@ -15,9 +15,9 @@ type FavoriteLaunchesQueryKey = [
 
 export function favoriteLaunchesQueryOptions(ids: readonly string[]) {
   return queryOptions<
-    SpaceXLaunch[],
+    LaunchListItem[],
     ApiError,
-    SpaceXLaunch[],
+    LaunchListItem[],
     FavoriteLaunchesQueryKey
   >({
     enabled: ids.length > 0,

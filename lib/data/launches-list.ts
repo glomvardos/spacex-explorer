@@ -1,11 +1,11 @@
 import { queryData } from '@/lib/api/query-data';
 import { endpoints } from '@/lib/constants/endpoints';
 import type {
+  LaunchListResponse,
   LaunchSortField,
   LaunchesQuery,
   LaunchesQueryParams,
   LaunchesQueryRequest,
-  LaunchesQueryResponse,
   SortDirection,
 } from '@/lib/types/launches';
 import { escapeRegExp } from '@/lib/utils/escape-reg-exp';
@@ -13,6 +13,14 @@ import { escapeRegExp } from '@/lib/utils/escape-reg-exp';
 const DEFAULT_LAUNCHES_LIMIT = 20;
 const DEFAULT_SORT_DIRECTION: SortDirection = 'desc';
 const DEFAULT_SORT_FIELD: LaunchSortField = 'date_utc';
+const LAUNCH_LIST_SELECT = [
+  'name',
+  'date_utc',
+  'upcoming',
+  'success',
+  'details',
+  'links.patch',
+];
 
 type FetchLaunchesPageInput = {
   page: number;
@@ -73,12 +81,13 @@ export function fetchLaunchesPage({
     options: {
       limit: params.limit ?? DEFAULT_LAUNCHES_LIMIT,
       page,
+      select: LAUNCH_LIST_SELECT,
       sort: { [sortField]: sortDirection },
     },
     query: createLaunchesQuery(params),
   };
 
-  return queryData<LaunchesQueryResponse>(endpoints.launchesQuery, {
+  return queryData<LaunchListResponse>(endpoints.launchesQuery, {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',

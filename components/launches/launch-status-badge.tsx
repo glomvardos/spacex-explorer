@@ -9,13 +9,15 @@ import {
 import type { SpaceXLaunch } from '@/lib/types/launches';
 import { cn } from '@/lib/utils/cn';
 
+type LaunchStatusInput = Pick<SpaceXLaunch, 'success' | 'upcoming'>;
+
 type LaunchStatus = {
   className: string;
   icon: LucideIcon;
   label: string;
 };
 
-function getLaunchStatus(launch: SpaceXLaunch): LaunchStatus {
+function getLaunchStatus(launch: LaunchStatusInput): LaunchStatus {
   if (launch.upcoming) {
     return {
       className:
@@ -50,7 +52,7 @@ function getLaunchStatus(launch: SpaceXLaunch): LaunchStatus {
   };
 }
 
-export function LaunchStatusBadge({ launch }: { launch: SpaceXLaunch }) {
+export function LaunchStatusBadge({ launch }: { launch: LaunchStatusInput }) {
   const status = getLaunchStatus(launch);
   const StatusIcon = status.icon;
 

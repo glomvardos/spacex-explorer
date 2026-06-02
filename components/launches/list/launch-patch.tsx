@@ -2,9 +2,13 @@ import Image from 'next/image';
 
 import { Rocket } from 'lucide-react';
 
-import type { SpaceXLaunch } from '@/lib/types/launches';
+import type { LaunchListItem } from '@/lib/types/launches';
 
-export function LaunchPatch({ launch }: { launch: SpaceXLaunch }) {
+export function LaunchPatch({
+  launch,
+}: {
+  launch: Pick<LaunchListItem, 'links'>;
+}) {
   if (!launch.links.patch.small) {
     return (
       <div className="bg-muted text-muted-foreground grid size-14 place-items-center rounded-md border">
