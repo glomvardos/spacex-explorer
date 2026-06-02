@@ -16,6 +16,8 @@ npm run dev
 Then open http://localhost:3000. Use `npm run build` for a production build and
 `npm run lint` to check the code.
 
+Live link: https://spacex-explorer-rho.vercel.app
+
 ## Architecture decisions
 
 I built the app on the Next.js App Router. It lets the first view render on the
