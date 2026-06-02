@@ -20,6 +20,7 @@ export type LaunchesQueryParams = {
 export type SpaceXLaunch = {
   id: string;
   name: string;
+  flight_number: number;
   date_utc: string;
   upcoming: boolean;
   success: boolean | null;
