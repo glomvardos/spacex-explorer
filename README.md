@@ -101,6 +101,9 @@ message with a retry button.
 - Automated tests: small unit tests for the address and filter helpers, a few
   component tests for favorites and the launch picker, and one test that walks
   through the main flow end to end.
+- A small set of shared heading and text styles. Right now those styles sit
+  next to the content that uses them, which is fine at this size, but a shared
+  set would keep them consistent and quicker to change as the app grows.
 - Move keyboard focus to the top of each page after navigating, so the change of
   page is felt as well as announced.
 - Richer detail pages, such as a map of the launch site and crew information
