@@ -26,6 +26,11 @@ const navItems: NavItem[] = [
     label: 'Favorites',
     matches: (pathname) => pathname.startsWith(routePaths.favorites),
   },
+  {
+    href: routePaths.analytics,
+    label: 'Analytics',
+    matches: (pathname) => pathname.startsWith(routePaths.analytics),
+  },
 ];
 
 export function AppNav() {
