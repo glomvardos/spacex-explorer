@@ -12,7 +12,7 @@ import type {
 import { uniqueIds } from '@/lib/utils/unique-ids';
 import { withDynamicSegment } from '@/lib/utils/with-dynamic-segment';
 
-const LAUNCH_DETAIL_REVALIDATE_SECONDS = 3 * 60;
+const LAUNCH_DETAIL_REVALIDATE_SECONDS = 60 * 60;
 const cachedLaunchDetailRequestInit = {
   cache: 'force-cache',
   next: {

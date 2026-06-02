@@ -37,6 +37,7 @@ export const LaunchRow = forwardRef<HTMLLIElement, LaunchRowProps>(
       >
         <Link
           href={href}
+          prefetch={false}
           className="focus-visible:ring-ring/30 grid min-w-0 flex-1 gap-3 px-4 py-4 before:absolute before:inset-0 before:content-[''] focus-visible:ring-3 focus-visible:outline-none sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:gap-4"
         >
           <LaunchPatch launch={launch} />

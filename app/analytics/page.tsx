@@ -7,6 +7,8 @@ import { PageSection } from '@/components/ui/page-section';
 
 import { fetchLaunchAnalytics } from '@/lib/data/launch-analytics';
 
+export const revalidate = 3600;
+
 async function AnalyticsContent() {
   const analytics = await fetchLaunchAnalytics();
 
