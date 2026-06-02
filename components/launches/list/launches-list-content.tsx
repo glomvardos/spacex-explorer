@@ -1,7 +1,7 @@
 import type { RefCallback } from 'react';
 
-import { LaunchRow } from '@/components/launches/list/launch-row';
 import { LaunchesListFooter } from '@/components/launches/list/launches-list-footer';
+import { LaunchesRows } from '@/components/launches/list/launches-rows';
 import { LaunchesSkeleton } from '@/components/launches/list/launches-skeleton';
 import {
   LaunchesEmptyState,
@@ -9,7 +9,6 @@ import {
 } from '@/components/launches/list/launches-state';
 
 import type { LaunchListItem } from '@/lib/types/launches';
-import { createLaunchDetailUrl } from '@/lib/utils/launch-routes';
 
 type LaunchesListContentProps = {
   errorMessage: string | null;
@@ -56,15 +55,7 @@ export function LaunchesListContent({
 
   return (
     <>
-      <ul className="bg-card overflow-hidden rounded-md border">
-        {launches.map((launch) => (
-          <LaunchRow
-            key={launch.id}
-            href={createLaunchDetailUrl(launch.id)}
-            launch={launch}
-          />
-        ))}
-      </ul>
+      <LaunchesRows launches={launches} />
 
       <LaunchesListFooter
         hasNextPage={hasNextPage}

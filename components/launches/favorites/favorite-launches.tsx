@@ -8,13 +8,12 @@ import {
   FavoritesEmptyState,
   FavoritesErrorState,
 } from '@/components/launches/favorites/favorite-launches-state';
-import { LaunchRow } from '@/components/launches/list/launch-row';
+import { LaunchesRows } from '@/components/launches/list/launches-rows';
 import { LaunchesSkeleton } from '@/components/launches/list/launches-skeleton';
 
 import { useFavoriteLaunches } from '@/lib/hooks/use-favorite-launches';
 import { useIsHydrated } from '@/lib/hooks/use-is-hydrated';
 import { favoriteLaunchesQueryOptions } from '@/lib/queries/favorite-launches-query-options';
-import { createLaunchDetailUrl } from '@/lib/utils/launch-routes';
 
 export function FavoriteLaunches() {
   const isHydrated = useIsHydrated();
@@ -56,15 +55,5 @@ export function FavoriteLaunches() {
     return <FavoritesEmptyState />;
   }
 
-  return (
-    <ul className="bg-card overflow-hidden rounded-md border">
-      {launches.map((launch) => (
-        <LaunchRow
-          key={launch.id}
-          href={createLaunchDetailUrl(launch.id)}
-          launch={launch}
-        />
-      ))}
-    </ul>
-  );
+  return <LaunchesRows launches={launches} />;
 }
