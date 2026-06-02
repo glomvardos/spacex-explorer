@@ -18,7 +18,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const filters = parseLaunchesSearchParams(await searchParams);
 
   return (
-    <main className="flex-1">
+    <main id="main-content" tabIndex={-1} className="flex-1">
       <PageSection labelledBy="launches-heading">
         <PageHeader
           description="Every SpaceX launch in one timeline."

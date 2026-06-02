@@ -12,7 +12,7 @@ type ErrorProps = {
 
 export default function Error({ reset }: ErrorProps) {
   return (
-    <main className="flex-1">
+    <main id="main-content" tabIndex={-1} className="flex-1">
       <PageSection labelledBy="app-error-heading">
         <RouteState
           role="alert"

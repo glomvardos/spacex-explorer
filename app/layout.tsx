@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 
 import { AppHeader } from '@/components/layout/app-header';
+import { SkipToContent } from '@/components/layout/skip-to-content';
 import { ReactQueryProvider } from '@/components/providers/react-query-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
@@ -29,6 +30,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider>
+          <SkipToContent />
           <AppHeader />
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </ThemeProvider>

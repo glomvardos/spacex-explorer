@@ -5,44 +5,14 @@ import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
-import { routePaths } from '@/lib/constants/route-paths';
+import { navItems } from '@/lib/constants/nav-items';
 import { cn } from '@/lib/utils/cn';
-
-type NavItem = {
-  href: string;
-  label: string;
-  matches: (pathname: string) => boolean;
-};
-
-const navItems: NavItem[] = [
-  {
-    href: routePaths.home,
-    label: 'Launches',
-    matches: (pathname) =>
-      pathname === routePaths.home || pathname.startsWith('/launches'),
-  },
-  {
-    href: routePaths.favorites,
-    label: 'Favorites',
-    matches: (pathname) => pathname.startsWith(routePaths.favorites),
-  },
-  {
-    href: routePaths.compare,
-    label: 'Compare',
-    matches: (pathname) => pathname.startsWith(routePaths.compare),
-  },
-  {
-    href: routePaths.analytics,
-    label: 'Analytics',
-    matches: (pathname) => pathname.startsWith(routePaths.analytics),
-  },
-];
 
 export function AppNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Primary" className="flex items-center gap-1">
+    <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
       {navItems.map((item) => {
         const isActive = item.matches(pathname);
 

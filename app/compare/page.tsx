@@ -23,7 +23,7 @@ export default async function ComparePage({ searchParams }: ComparePageProps) {
   const selection = parseCompareSearchParams(await searchParams);
 
   return (
-    <main className="flex-1">
+    <main id="main-content" tabIndex={-1} className="flex-1">
       <PageSection labelledBy="compare-heading">
         <PageHeader
           description="Put two launches side by side and compare their date, outcome, rocket, and launchpad."

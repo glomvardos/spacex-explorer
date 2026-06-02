@@ -8,6 +8,7 @@ import { LaunchesBackButton } from '@/components/launches/detail/launches-back-b
 import { PageSection } from '@/components/ui/page-section';
 
 import { routePaths } from '@/lib/constants/route-paths';
+import { fetchLaunch } from '@/lib/data/launch-details';
 import { createLaunchDetailUrl } from '@/lib/utils/launch-routes';
 
 import { getLaunchDetailPageData } from './launch-detail-page-data';
@@ -26,12 +27,23 @@ export async function generateMetadata({
   params,
 }: LaunchDetailPageProps): Promise<Metadata> {
   const { id } = await params;
+  const canonical = createLaunchDetailUrl(id);
 
-  return {
-    alternates: {
-      canonical: createLaunchDetailUrl(id),
-    },
-  };
+  try {
+    const launch = await fetchLaunch(id);
+
+    return {
+      title: launch.name,
+      description:
+        launch.details ??
+        `Mission overview, rocket, and launchpad for the ${launch.name} launch.`,
+      alternates: { canonical },
+    };
+  } catch {
+    return {
+      alternates: { canonical },
+    };
+  }
 }
 
 async function LaunchDetailPageContent({ id }: { id: string }) {
@@ -46,7 +58,7 @@ export default async function LaunchDetailPage({
   const { id } = await params;
 
   return (
-    <main className="flex-1">
+    <main id="main-content" tabIndex={-1} className="flex-1">
       <PageSection labelledBy="launch-detail-heading">
         <LaunchesBackButton fallbackHref={routePaths.home} />
 

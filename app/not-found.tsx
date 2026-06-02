@@ -10,7 +10,7 @@ import { routePaths } from '@/lib/constants/route-paths';
 
 export default function NotFound() {
   return (
-    <main className="flex-1">
+    <main id="main-content" tabIndex={-1} className="flex-1">
       <PageSection labelledBy="not-found-heading">
         <RouteState
           icon={Rocket}
