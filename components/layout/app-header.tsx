@@ -15,10 +15,10 @@ export function AppHeader() {
           <Image
             src="/images/spacex-logo.svg"
             alt="SpaceX"
-            width={128}
-            height={18}
+            width={398}
+            height={49}
             priority
-            className="dark:invert"
+            className="h-auto w-32 dark:invert"
           />
           <span className="border-l pl-3 text-sm font-semibold">Explorer</span>
         </Link>
