@@ -1,79 +1,114 @@
 # SpaceX Explorer
 
-Frontend tech task built with Next.js App Router, TypeScript, React Query, and
-the public SpaceX REST API v4.
+SpaceX Explorer is a small app for browsing the history of SpaceX launches. You
+can search, filter and sort the launches, open one to see its details, rocket,
+launch site and photos, save launches to come back to, and compare two launches
+side by side. There is also a page of charts showing how many launches happened
+each year and the overall success rate.
 
-## Getting Started
+## Getting started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Then open http://localhost:3000. Use `npm run build` for a production build and
+`npm run lint` to check the code.
 
-## Architecture Notes
+## Architecture decisions
 
-- Next.js App Router is used for the project structure.
-- React Query owns list caching, dedupe, manual retry, and infinite loading
-  state.
-- The launches page reads filter state from URL search params, server-prefetches
-  the first page, and hydrates React Query so refresh/back/forward keep the same
-  result set.
-- SpaceX list data is requested through `POST /launches/query` with API-side
-  pagination and sorting.
-- Generic API transport lives in `lib/api`; endpoint-specific data functions
-  live in `lib/data`; React Query hooks live in `lib/hooks`.
-- Basic retry/backoff for SpaceX `429` and `5xx` responses is handled in the
-  generic API transport instead of React Query. This keeps API-limit behavior
-  consistent for server prefetch, client queries, and future detail requests
-  while avoiding multiplied retries from both layers.
-- Generic typography components are intentionally not added. The app only
-  has a few text styles, so `h1`, `h2`, and `p` styles stay close to the
-  components that own the content. Shared components are added where structure
-  repeats, such as `PageHeader` and `PageSection`.
+I built the app on the Next.js App Router. It lets the first view render on the
+server and arrive ready to read, while only the interactive parts run in the
+browser. Most of the app stays server rendered, and search, favorites, the
+charts and the image viewer are the pieces that run on the client.
 
-## Rendering Strategy (SSR / SSG / ISR)
+For data I used React Query rather than writing fetching by hand. It handles
+caching, removing duplicate requests, refreshing in the background, and loading
+and error states, which covers most of what the list and detail screens need.
+The actual network calls live in one small shared layer, so the same code runs
+whether a page is built on the server or in the browser.
 
-Every route ships HTML first and then hydrates. The list additionally
-dehydrates and rehydrates the React Query cache, so the client does not refetch
-the server-rendered first page.
+Filters, search and sorting are kept in the page address instead of in
+component state. A filtered view can then be shared or bookmarked, and it
+survives a refresh or the browser back button.
 
-### Tradeoffs
+## Data and pagination
 
-- **List (SSR).** Filters, search, and sort live in the URL and the data keeps
-  changing, so the list can't be prerendered. The server renders the first page
-  (prefetched into React Query) and the client takes over after that.
-  `staleTimes.dynamic` is set to 30 so going back to the list within 30s reuses
-  the cached page instead of re-rendering it.
-- **Detail (SSG + ISR).** `generateStaticParams` returns `[]`, so the build
-  never calls SpaceX. Each launch page is generated the first time someone opens
-  it, then cached and revalidated hourly. New launches don't need a rebuild:
-  they appear in the live list and generate on first visit. The cost is that the
-  first hit on an uncached page is a bit slower, and if a section's fetch fails
-  during that render its "unavailable" card is cached until the next revalidate
-  (the transport retries 429/5xx, so it rarely gets that far).
-- **Detail errors.** Rocket, launchpad, payloads, and cores each load in their
-  own `Suspense` and catch their own errors, so a failed section just shows an
-  "unavailable" card and the rest of the page still works. Only a failure of the
-  launch fetch itself hits `error.tsx`.
-- **Analytics (SSG + ISR).** Generated at build, then revalidated hourly, so it
-  stays fast but still picks up new launches without a rebuild. The aggregate
-  changes rarely, so hourly is plenty.
-- **Compare (SSR).** `/compare` reads the two launch ids from the URL
-  (`?a=<id>&b=<id>`), so it can't be prerendered and renders per request. The
-  launch, rocket, and launchpad fetches are the same cached ones the detail page
-  uses, so once a launch has been opened the comparison is fast. A missing id
-  shows an inline "not found" column and a failed rocket or launchpad fetch
-  shows an inline "unavailable" cell, so one bad id never breaks the whole page.
-- **Favorites (client).** They're in `localStorage`, so there's nothing for the
-  server to render. You get a skeleton first and the page isn't indexable, which
-  is fine for personal data.
+The app reads from the public SpaceX API. The launch list is paged on the
+server: each time you reach the bottom of the list it asks for the next page,
+instead of downloading every launch and filtering in the browser. Searching,
+filtering by status or date, and sorting are all done by the API as well, so
+the browser only holds the rows it is currently showing.
 
-## Commands
+Every request asks only for the fields a screen actually uses, which keeps
+responses small. A detail page loads the launch and then its rocket and launch
+site, and those results are cached and refreshed quietly in the background, so
+opening the same launch again is instant and the compare page reuses the same
+data. If the API is briefly busy or returns an error, requests are retried a few
+times with a short, growing delay before the screen falls back to an error
+message with a retry button.
 
-```bash
-npm run dev
-npm run lint
-npm run build
-```
+## Performance
+
+- The first page of the list is rendered on the server and arrives ready to
+  show, so there is no loading flash on the first visit.
+- Long lists are virtualized, so only the rows on screen are rendered no matter
+  how far you scroll.
+- Responses are trimmed to the fields in use, and detail data is cached and
+  shared with the compare page to avoid repeat requests.
+- Images load only when needed and are sized in advance so they do not shift the
+  layout as they appear.
+- List rows do not prefetch in the background, which stops scrolling from firing
+  a large number of requests at once.
+
+## Accessibility
+
+- Real headings, landmarks, lists and a comparison table are used so the page
+  structure is clear without sight.
+- Every control has a label, decorative icons are hidden from assistive
+  technology, and the active page is marked in the navigation.
+- The whole app works with the keyboard, focus stays visible, and overlays such
+  as the menu, filters and image viewer keep focus inside while open and hand it
+  back when closed.
+- A skip link lets keyboard users jump straight past the header to the content.
+- Loading, empty and error states are announced rather than only shown.
+- The layout adapts from phone to desktop and supports light and dark mode.
+
+## Tradeoffs
+
+- The list is rendered fresh on each request, because what it shows depends on
+  the filters in the address and the data changes over time, so it cannot be
+  built ahead of time. Detail and analytics pages are built on first visit and
+  then refreshed in the background, which keeps them fast and lets new launches
+  show up without a rebuild. The cost is that the first visit to a launch nobody
+  has opened yet is a little slower while it is prepared.
+- Favorites are stored in the browser. They stay private to the device and need
+  no account, but they do not follow you to another device.
+- Detail pages cope with partial failures. If one section such as the rocket or
+  launch site cannot load, that section shows a short "unavailable" note and the
+  rest of the page still works.
+
+## What I'd do with more time
+
+- Offline support, so saved launches and recently viewed data stay readable
+  without a connection. This is two pieces of work rather than one, because the
+  launch list is requested in a way the browser cannot cache on its own, so the
+  saved data and the rest of the app would need to be handled separately. I left
+  it out rather than ship a version that is easy to get subtly wrong.
+- Automated tests: small unit tests for the address and filter helpers, a few
+  component tests for favorites and the launch picker, and one test that walks
+  through the main flow end to end.
+- Move keyboard focus to the top of each page after navigating, so the change of
+  page is felt as well as announced.
+- Richer detail pages, such as a map of the launch site and crew information
+  where it exists.
+- Smaller gallery thumbnails, loading the full size photo only when one is
+  opened.
+
+## Known limitations
+
+- There is no offline mode yet, as described above.
+- Favorites are tied to a single device and browser, since they are not linked
+  to an account.
+- There are no automated tests yet.
